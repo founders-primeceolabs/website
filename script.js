@@ -90,3 +90,18 @@ document.querySelector('#retake').addEventListener('click', () => {
   assessment.hidden = false;
   assessment.scrollIntoView({ behavior: reducedMotion ? 'auto' : 'smooth', block: 'start' });
 });
+
+const application = document.querySelector('#application-form');
+
+application.addEventListener('submit', (event) => {
+  event.preventDefault();
+  if (!application.reportValidity()) return;
+
+  const values = Object.fromEntries(new FormData(application).entries());
+  const subject = encodeURIComponent(`CEO Diagnostic Application — ${values.company}`);
+  const body = encodeURIComponent(
+    `CEO Diagnostic Application\n\nName: ${values.name}\nEmail: ${values.email}\nCompany: ${values.company}\nAnnual revenue: ${values.revenue}\n\nCurrent constraint:\n${values.challenge}`
+  );
+
+  window.location.href = `mailto:founders@primeceolab.com?subject=${subject}&body=${body}`;
+});
