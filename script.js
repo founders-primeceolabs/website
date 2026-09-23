@@ -13,9 +13,5 @@ const revealItems = document.querySelectorAll('.reveal');
 if (reducedMotion || !('IntersectionObserver' in window)) revealItems.forEach((item) => item.classList.add('visible'));
 else { const observer = new IntersectionObserver((entries, current) => entries.forEach((entry) => { if (entry.isIntersecting) { entry.target.classList.add('visible'); current.unobserve(entry.target); } }), { threshold: .12, rootMargin: '0px 0px -5% 0px' }); revealItems.forEach((item) => observer.observe(item)); }
 
-const markStage = document.querySelector('[data-mark-stage]');
-const motionToggle = document.querySelector('[data-motion-toggle]');
-if (markStage && motionToggle) motionToggle.addEventListener('click', () => { const paused = markStage.classList.toggle('paused'); motionToggle.setAttribute('aria-pressed', String(paused)); motionToggle.textContent = paused ? 'Play mark motion' : 'Pause mark motion'; });
-
 const application = document.querySelector('#application-form');
 if (application) application.addEventListener('submit', (event) => { event.preventDefault(); if (!application.reportValidity()) return; const values = Object.fromEntries(new FormData(application).entries()); const subject = encodeURIComponent(`CEO LAB inquiry — ${values.company}`); const body = encodeURIComponent(`CEO LAB inquiry\n\nName: ${values.name}\nEmail: ${values.email}\nCompany: ${values.company}\n\nWhat I would like to work on:\n${values.challenge}`); window.location.href = `mailto:founders@primeceolab.com?subject=${subject}&body=${body}`; });
