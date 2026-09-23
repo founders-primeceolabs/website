@@ -15,3 +15,20 @@ else { const observer = new IntersectionObserver((entries, current) => entries.f
 
 const application = document.querySelector('#application-form');
 if (application) application.addEventListener('submit', (event) => { event.preventDefault(); if (!application.reportValidity()) return; const values = Object.fromEntries(new FormData(application).entries()); const subject = encodeURIComponent(`CEO LAB inquiry — ${values.company}`); const body = encodeURIComponent(`CEO LAB inquiry\n\nName: ${values.name}\nEmail: ${values.email}\nCompany: ${values.company}\n\nWhat I would like to work on:\n${values.challenge}`); window.location.href = `mailto:founders@primeceolab.com?subject=${subject}&body=${body}`; });
+
+document.querySelectorAll('[data-logo-motion]').forEach((scene) => {
+  const toggle = scene.querySelector('.motion-toggle');
+  if (!toggle) return;
+  if (reducedMotion) {
+    scene.classList.add('motion-paused');
+    toggle.textContent = 'Motion paused';
+    toggle.setAttribute('aria-pressed', 'true');
+    toggle.disabled = true;
+    return;
+  }
+  toggle.addEventListener('click', () => {
+    const paused = scene.classList.toggle('motion-paused');
+    toggle.textContent = paused ? 'Play motion' : 'Pause motion';
+    toggle.setAttribute('aria-pressed', String(paused));
+  });
+});
